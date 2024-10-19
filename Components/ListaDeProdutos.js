@@ -13,6 +13,12 @@ export default function ListaDeProdutos ({ navigation }){
         const todosProdutos = await db.produtos.toArray();
         setProdutos(todosProdutos);
     }
+
+    const excluirProduto = async (id) => {
+        await db.produtos.delete(id);
+        carregarProdutos();
+    }
+
     return (
         <View>
             <FlatList
@@ -23,8 +29,8 @@ export default function ListaDeProdutos ({ navigation }){
                     <Text>{item.nome} - {item.valor}
                           x {item.quantidade} = {item.total}
                     </Text>
-                        <Button title="Editar"/>
-                        <Button title="Excluir"/>
+                        <Button title="Editar" onPress={() => navigation.navigate('EditarProduto', {id: item.id})}/>
+                        <Button title="Excluir" onPress={() => excluirProduto(item.id)}/>
                     </View>
                 )}
             />
